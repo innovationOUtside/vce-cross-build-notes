@@ -1,6 +1,10 @@
-# Cross-building the M346 images
+# Publishing amd64/arm64 images
 
-#- use hosted VCE image for amd68 build (https://hub.docker.com/r/mmh352/m348/tags)
+# Script for use on Mac for native arm64 container build
+
+#- use hosted VCE image for amd64 build (eg https://hub.docker.com/r/mmh352/m348/tags)
+#- build on local Mac (arm64) for arm64 image
+
 #!/bin/bash
 
 #USAGE:
