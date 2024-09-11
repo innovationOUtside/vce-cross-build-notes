@@ -5,23 +5,21 @@
 #- use hosted VCE image for amd64 build (eg https://hub.docker.com/r/mmh352/m348/tags)
 #- build on local Mac (arm64) for arm64 image
 
-#!/bin/bash
-
 #USAGE:
 #chmod +x containers_dist.sh
-#OCBC_VERSION=v24j.0b5 OCBC_MODULE=tm351 OCBC_PRESENTATION=24j ./containers_dist.sh
+#OCBC_VERSION=24j.0b5 OCBC_MODULE=tm351 OCBC_PRESENTATION=24j ./containers_dist.sh
 
 #- build arm64 natively on Mac m*
 
 
-# Use M348 ou0container-builder direcxtory
+# Use ou-container-builder directory
 
 # Version
 # The :- sets the env var if passed, else uses the default, eg 24j.0b5, m348, 24j
-OCBC_VERSION=${VERSION:-24j.0b5}
-OCBC_MODULE=${MODULE:-m348}
-OCBC_PRESENTATION=${PRESENTATION:-24j}
-OCBC_DOCKER_PATH=${DOCKER_PATH:-mmh352}
+OCBC_VERSION=${OCBC_VERSION:-24j.0b7}
+OCBC_MODULE=${OCBC_MODULE:-tm351}
+OCBC_PRESENTATION=${OCBC_PRESENTATION:-24j}
+OCBC_DOCKER_PATH=${OCBC_DOCKER_PATH:-mmh352}
 
 # Echo the environment variables for confirmation
 echo "Using the following configuration:"
@@ -73,7 +71,7 @@ docker manifest create ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION \
 
 docker manifest push ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION
 
-docker manifest create ousefulcoursecontainers/ou-$OCBC_MODULE:OCBC_PRESENTATION \
+docker manifest create ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_PRESENTATION \
     --amend ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-amd64 \
     --amend ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-arm64
 
