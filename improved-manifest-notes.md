@@ -1,5 +1,6 @@
 We don't need to actually pull containers; the amnisfest commands run purely on maifests; we can delete the manifest wit a manifest rm command then create and puysh a new one simply by referring to other tagged images on docker hub.
 
+```text
 
 docker pull --platform=linux/amd64 ousefulcoursecontainers/ou-tm351:24j.0b7-amd64
 docker pull --platform=linux/arm64 ousefulcoursecontainers/ou-tm351:24j.0b7-arm64
@@ -14,3 +15,4 @@ docker manifest create ousefulcoursecontainers/ou-tm351:24j --amend ousefulcours
 docker manifest create ousefulcoursecontainers/ou-tm351:24j --amend ousefulcoursecontainers/ou-tm351:24j.0b7-arm64
 
 docker manifest push ousefulcoursecontainers/ou-tm351:24j
+```
