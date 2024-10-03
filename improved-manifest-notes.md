@@ -1,4 +1,4 @@
-We don't need to actually pull containers; the amnisfest commands run purely on maifests; we can delete the manifest wit a manifest rm command then create and puysh a new one simply by referring to other tagged images on docker hub.
+We don't need to actually pull containers; the manifest commands run purely on maifests; we can delete the manifest wit a manifest rm command then create and puysh a new one simply by referring to other tagged images on docker hub.
 
 ```text
 
