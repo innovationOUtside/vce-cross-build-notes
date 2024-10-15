@@ -53,6 +53,10 @@ echo "\nBuilding: docker build . --tag local_${OCBC_MODULE}_image:$OCBC_VERSION\
 docker build . --tag local_${OCBC_MODULE}_image:$OCBC_VERSION
 
 # Pull existing images and retag locally
+# NOTE: this is NOT required for building the manifest
+# We could actually amend direclty against the mmh352 amd64 image,
+# assuming that the image manifest is solely referring to the amd64 image,
+# eg as: docker manifest create ousefulcoursecontainers/ou-tm351:24j --amend mmh352/tm351:24j
 echo "Pull amd64 image from docker\n"
 docker pull --platform=linux/amd64 $OCBC_DOCKER_PATH/$OCBC_MODULE:$OCBC_VERSION
 docker tag $OCBC_DOCKER_PATH/$OCBC_MODULE:$OCBC_VERSION ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-amd64
@@ -60,16 +64,21 @@ docker tag $OCBC_DOCKER_PATH/$OCBC_MODULE:$OCBC_VERSION ousefulcoursecontainers/
 # Local image
 docker tag local_${OCBC_MODULE}_image:$OCBC_VERSION ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-arm64
 
-# Push the tagged images to your repository
+# Push the tagged images to repository
 docker push ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-amd64
 docker push ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-arm64
 
-# Create and push a manifest list
+# Remove old manifest
+docker manifest rm ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION
+
+# Create and push new manifest
 docker manifest create ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION \
     --amend ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-amd64 \
     --amend ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-arm64
 
 docker manifest push ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION
+
+docker manifest rm ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_PRESENTATION
 
 docker manifest create ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_PRESENTATION \
     --amend ousefulcoursecontainers/ou-$OCBC_MODULE:$OCBC_VERSION-amd64 \
